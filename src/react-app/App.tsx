@@ -13,6 +13,7 @@ import Recommendations from "@/react-app/pages/Recommendations";
 import Profile from "@/react-app/pages/Profile";
 import Login from "@/react-app/pages/Login";
 import Register from "@/react-app/pages/Register";
+import Anamnesis from "@/react-app/pages/Anamnesis";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/anamnese" element={<ProtectedRoute><Anamnesis /></ProtectedRoute>} />
           <Route
             path="/*"
             element={

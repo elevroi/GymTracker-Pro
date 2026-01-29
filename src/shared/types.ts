@@ -205,3 +205,64 @@ export const GoalFormSchema = GoalSchema.omit({
   updatedAt: true,
 });
 export type GoalForm = z.infer<typeof GoalFormSchema>;
+
+// --- Anamnese (questionário pós-cadastro) - apenas escolhas (radio/select/checkbox) ---
+
+export const AnamnesisAnswersSchema = z.object({
+  // 1. Dados Pessoais (mantido com inputs)
+  fullName: z.string().optional(),
+  birthDate: z.string().optional(),
+  age: z.string().optional(),
+  gender: z.string().optional(),
+  height: z.string().optional(),
+  currentWeight: z.string().optional(),
+  profession: z.string().optional(),
+  maritalStatus: z.string().optional(),
+  phone: z.string().optional(),
+  email: z.string().optional(),
+  // 2. Objetivos – escolhas
+  mainGoal: z.enum(["emagrecimento", "ganho_massa", "definicao", "condicionamento", "saude", "reabilitacao"]).optional(),
+  goalDeadline: z.string().optional(), // curto | medio | longo | nao_definido
+  trainedBefore: z.string().optional(), // nunca | menos_6m | 6m_1ano | mais_1ano
+  motivation: z.string().optional(), // saude | estetica | qualidade_vida | recomendacao_medica | autoestima | outro
+  // 3. Saúde geral – escolhas
+  diagnosedDisease: z.string().optional(), // nao | cardiovascular | metabolica | respiratoria | outra
+  medicalFollowUp: z.string().optional(), // nao | clinico | cardiologista | endocrinologista | outro
+  surgery: z.string().optional(), // nao | menos_1ano | 1_5anos | mais_5anos
+  // 4. Lesões e limitações – escolhas
+  injuries: z.string().optional(), // nao | coluna | joelho | ombro | tornozelo | outra
+  physicalLimitation: z.string().optional(), // nao | leve | moderada | severa
+  // 5. Medicamentos e hormônios – escolhas
+  continuousMedication: z.string().optional(), // nao | pressao | diabetes | hormonios | outro
+  hormonesUse: z.string().optional(), // nunca | passado | atualmente | prefiro_nao_responder
+  medicalClearance: z.string().optional(), // sim | nao | nao_sei
+  // 6. Alimentação e hidratação – escolhas
+  mealsPerDay: z.string().optional(), // 1_2 | 3 | 4 | 5_mais
+  fastFood: z.string().optional(), // nunca | raramente | 1_2_semana | 3_mais_semana
+  waterIntake: z.string().optional(), // menos_1l | 1_2l | mais_2l
+  // 7. Sono e estresse – escolhas
+  sleepHours: z.string().optional(), // menos_5h | 5_6h | 7_8h | mais_8h
+  stressFrequency: z.string().optional(), // nunca | raramente | as_vezes | frequentemente
+  alcoholFrequency: z.string().optional(), // nao | raramente | 1_2_semana | 3_mais_semana
+  // 8. Disponibilidade para treinos – escolhas
+  daysPerWeek: z.string().optional(), // 1_2 | 3 | 4 | 5_mais
+  timePerWorkout: z.string().optional(), // ate_30min | 30_45min | 45_60min | mais_60min
+  bestTime: z.string().optional(), // manha | tarde | noite | variavel
+  // 9. Acompanhamento e avaliação – escolhas
+  recentPhysicalAssessment: z.string().optional(), // nao | 3_meses | 6_meses | mais_6meses
+  recentExams: z.string().optional(), // nao | laboratoriais | imagem | ambos
+  acceptEvolutionTracking: z.string().optional(), // sim | nao | talvez
+  // 10. Termos
+  declareTruth: z.boolean().optional(),
+  authorizeDataUse: z.boolean().optional(),
+  awareOfHealthChanges: z.boolean().optional(),
+}).passthrough();
+
+export type AnamnesisAnswers = z.infer<typeof AnamnesisAnswersSchema>;
+
+export const AnamnesisFormSchema = AnamnesisAnswersSchema.refine(
+  (data) => data.declareTruth === true && data.authorizeDataUse === true && data.awareOfHealthChanges === true,
+  { message: "É necessário aceitar os três termos para enviar a anamnese.", path: ["declareTruth"] }
+);
+
+export type AnamnesisForm = z.infer<typeof AnamnesisFormSchema>;

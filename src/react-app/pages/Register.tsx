@@ -50,7 +50,7 @@ export default function Register() {
         confirmPassword: result.data.confirmPassword,
         profile: result.data.profile,
       });
-      navigate("/", { replace: true });
+      navigate("/anamnese", { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Falha ao criar conta.");
     }

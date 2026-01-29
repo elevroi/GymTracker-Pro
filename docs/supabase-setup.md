@@ -40,6 +40,10 @@ O script cria:
 
 O arquivo está em: **[supabase/001_initial_schema.sql](../supabase/001_initial_schema.sql)**
 
+### Tabela de anamnese (questionário pós-cadastro)
+
+Depois de rodar o schema inicial, execute também **`supabase/002_anamnesis.sql`** no SQL Editor. Esse script cria a tabela `anamnesis`, onde são armazenadas as respostas do questionário que o aluno preenche após o cadastro.
+
 ---
 
 ## 4. Como verificar que está funcionando
