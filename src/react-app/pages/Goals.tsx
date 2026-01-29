@@ -277,22 +277,6 @@ export default function Goals() {
     }
   };
 
-  const handleStatusChange = (id: string, newStatus: Goal["status"]) => {
-    setGoals(
-      goals.map((g) =>
-        g.id === id ? { ...g, status: newStatus, updatedAt: new Date().toISOString() } : g
-      )
-    );
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };
-
   // Dados mockados para gráfico de progresso
   const progressChartData = useMemo(() => {
     return filteredGoals
@@ -390,7 +374,7 @@ export default function Goals() {
                   color: "#fff",
                   fontSize: "12px",
                 }}
-                formatter={(value: number) => [`${value.toFixed(1)}%`, "Progresso"]}
+                formatter={(value: number | undefined) => [value != null ? `${value.toFixed(1)}%` : "", "Progresso"]}
               />
                 <Bar dataKey="progress" fill="#f97316" radius={[0, 8, 8, 0]} />
               </BarChart>
@@ -402,7 +386,7 @@ export default function Goals() {
       {/* Filtros */}
       <div className="flex flex-col gap-3 sm:gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={18} className="sm:w-5 sm:h-5" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 sm:w-5 sm:h-5" size={18} />
           <input
             type="text"
             placeholder="Buscar metas..."
@@ -413,7 +397,7 @@ export default function Goals() {
         </div>
         <div className="grid grid-cols-2 gap-3 sm:flex sm:gap-4">
           <div className="relative flex-1">
-            <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={18} className="sm:w-5 sm:h-5" />
+            <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 sm:w-5 sm:h-5" size={18} />
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}

@@ -11,7 +11,6 @@ import {
   BookOpen,
   CheckCircle2,
   XCircle,
-  Filter,
   Sparkles,
 } from "lucide-react";
 

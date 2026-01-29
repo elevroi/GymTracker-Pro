@@ -80,7 +80,7 @@ export async function loginSupabase(credentials: LoginForm): Promise<User> {
   if (!u?.email) throw new Error("Sessão inválida.");
   const name = (u.user_metadata?.name as string) ?? u.email;
   const createdAt = u.created_at ?? new Date().toISOString();
-  return getUserWithProfile(u.id, u.email, name, createdAt);
+  return getUserWithProfile(u.id, u.email ?? "", name, createdAt);
 }
 
 export async function registerSupabase(data: RegisterForm): Promise<User> {
@@ -109,7 +109,7 @@ export async function registerSupabase(data: RegisterForm): Promise<User> {
   }
   const name = (u.user_metadata?.name as string) ?? data.name;
   const createdAt = u.created_at ?? new Date().toISOString();
-  const user = await getUserWithProfile(u.id, u.email, name, createdAt);
+  const user = await getUserWithProfile(u.id, u.email ?? "", name, createdAt);
   if (data.profile?.goal && user.profile) {
     user.profile.goal = data.profile.goal;
     await supabase.from("profiles").update({ goal: data.profile.goal }).eq("id", u.id);
@@ -123,7 +123,7 @@ export async function getSessionSupabase(): Promise<User | null> {
   const u = session.user;
   const name = (u.user_metadata?.name as string) ?? u.email;
   const createdAt = u.created_at ?? new Date().toISOString();
-  return getUserWithProfile(u.id, u.email, name, createdAt);
+  return getUserWithProfile(u.id, u.email ?? "", name, createdAt);
 }
 
 export function logoutSupabase(): void {

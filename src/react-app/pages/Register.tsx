@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, Navigate } from "react-router";
 import { Dumbbell } from "lucide-react";
 import { useAuth } from "@/react-app/context/AuthContext";
-import { RegisterFormSchema, type RegisterForm, type UserProfile } from "@/shared/types";
+import { RegisterFormSchema, type UserProfile } from "@/shared/types";
 
 const GOAL_LABELS: Record<string, string> = {
   emagrecer: "Emagrecer",
